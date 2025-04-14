@@ -3,6 +3,7 @@ package Customer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class CustomerController {
 
@@ -33,10 +34,21 @@ public class CustomerController {
                 Customer customer = customerService.getCustomerById(id);
                 System.out.println(customer.getName());
             case "3":
-                customerService.addCustomer("Exempelnamn", "tele", "mejl", "Hemma", "hemligt");
-            case "4":
+                try {
+                    customerService.addCustomer("Exempelnamn", "tele", "mejl", "Hemma", "hemligt");
+                } catch (SQLException e){
+                    System.out.println(e.getMessage());
+                    System.out.println("Someone already has that email-address");
+                }
+                case "4":
                 System.out.println("Ange email:");
                 String email = scanner.nextLine();
+                    if(!Pattern.matches("^[^@\\s]+@[^@\\s\\.]+\\.[^@\\s]+$", email)){
+                        System.out.println("Invalid email format");
+                        return;
+                    }else if(email.trim().isEmpty()){
+                        System.out.println("Du måste ange något");
+                    }
                 System.out.println("Ange id:");
                 int customerId = scanner.nextInt();
                 customerService.updateCustomerEmail(email, customerId);

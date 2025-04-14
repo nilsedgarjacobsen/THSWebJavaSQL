@@ -18,6 +18,14 @@ public class Main {
 
         Customer loggedInCustomer = customerRepository.login(email, password);
 
+        /*loggedInCustomer.cart.add(productRepository.getProductById());
+
+        for(Product p : cart){
+            orderRepository.addProductToOrder(p);
+        }
+
+
+         */
         CustomerController customerController = new CustomerController(loggedInCustomer);
         customerController.runMenu();
 
